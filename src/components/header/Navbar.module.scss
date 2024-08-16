@@ -1,0 +1,19 @@
+.logo {
+    height: 70%;
+    aspect-ratio: 1/1;
+    margin-right: 10px;
+}
+
+.title {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    font-size: calc(var(--fontsize) + 10px);
+    color: var(--fontcolor);
+}
+
+@media screen and (max-width: 310px) {
+    .title {
+        display: none;
+    }
+}

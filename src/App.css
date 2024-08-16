@@ -1,0 +1,22 @@
+body {
+  height: 100vh;
+  width: 100vw;
+  background-color: #e4e4e4;
+  margin: 0px;
+}
+
+.page {
+  width: 100%;
+  height: 100%;
+}
+
+:root {
+  --color1: #87b1ff;
+  --color2: #ff0000;
+  --fontcolor: rgb(235, 235, 235);
+  --color-before: white;
+  --color-after: rgb(0, 0, 0);
+  --shadow: rgba(0, 0, 0, 0.459);
+  --blur: 5px;
+  --fontsize: 10px;
+}
