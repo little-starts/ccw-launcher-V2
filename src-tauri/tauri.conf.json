@@ -31,9 +31,11 @@
     },
     "windows": [
       {
-        "title": "ccw-launcher",
+        "title": "共创世界启动器",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "minHeight": 300,
+        "minWidth": 400
       }
     ],
     "bundle": {

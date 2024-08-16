@@ -10,10 +10,14 @@
     align-items: center;
     font-size: calc(var(--fontsize) + 10px);
     color: var(--fontcolor);
+    clip-path: inset(0 0 0 0);
+    margin-right: 10px;
+    transition: all ease-out 0.3s;
 }
 
-@media screen and (max-width: 310px) {
+@media screen and (max-width: 500px) {
     .title {
-        display: none;
+        clip-path: inset(0 100% 0 0);
+        margin-right: -143px;
     }
 }
