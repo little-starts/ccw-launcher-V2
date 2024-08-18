@@ -1,7 +1,19 @@
-# Tauri + React + Typescript
+# CCW Luncher
+If you want to visit the Chinese version, you can find it [here](URL_ADDRESS).
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+## Info
+> A launcher based on tauri for running a china cocrea
+> maby it will suport cocrea.
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+## Run
+```bash
+# clone repo
+git clone https://github.com/little-starts/ccw-launcher-V2.git
+# enter repo
+cd ccw-launcher-V2
+# install dependencies
+yarn
+# run
+yarn tauri dev
+```
+Please install [RUST](https://www.rust-lang.org/tools/install) before running.
