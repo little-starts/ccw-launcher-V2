@@ -7,6 +7,7 @@ import { appDataDir } from '@tauri-apps/api/path';
 import { exists, readBinaryFile } from '@tauri-apps/api/fs';
 import AvatarIcon from './avatar/index';
 import { UserOutlined } from '@ant-design/icons';
+import { Window } from '../../globals';
 
 const items = [
     {
@@ -37,10 +38,16 @@ const itemSelect = ({ item, key, keyPath, selectedKeys, domEvent }: any) => {
     // 处理其他逻辑
 };
 
-
-
 const Navbar: React.FC = () => {
     const [imgSrc, setImgSrc] = useState<boolean>(false);
+
+    const log = () => {
+        if (!imgSrc) {
+            Window.createWindow('ccw', 'https://www.ccw.site/profile/personal');
+        } else {
+            Window.createWindow('ccw', 'https://www.ccw.site/profile/personal');
+        }
+    }
 
     useEffect(() => {
         const loadImage = async () => {
@@ -90,8 +97,8 @@ const Navbar: React.FC = () => {
                 onSelect={itemSelect}
             />
             <Button type="primary" style={{ marginRight: '20px' }}>去创作</Button>
-            <Tooltip title={imgSrc ? '管理登录' : '点击登录'}>
-                <Avatar icon={imgSrc ? <AvatarIcon /> : <UserOutlined />} style={{ backgroundColor: '#bfbfbf' }}>USER</Avatar>
+            <Tooltip title={imgSrc ? '管理账号' : '点击登录'}>
+                <Avatar icon={imgSrc ? <AvatarIcon /> : <UserOutlined />} className={styles.avatar} onClick={log}>USER</Avatar>
             </Tooltip>
         </Header>
     );

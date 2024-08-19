@@ -48,16 +48,11 @@ const Value = {
 }
 
 const Window = {
-    createWindow: async (id: string, url: string, width: number, height: number) => {
-        const newWindow = new WebviewWindow(id, {
+    createWindow: async (id: string, url: string) => {
+        invoke('create_and_inject_js', {
+            label: id,
             url: url,
-            width: width,
-            height: height,
-        });
-
-        newWindow.onCloseRequested((message) => {
-            console.log('New window received message:', message);
-        });
+        }).catch((error) => console.error('Failed to create window:', error));
     }
 
 }

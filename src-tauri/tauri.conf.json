@@ -18,6 +18,9 @@
       },
       "window": {
         "all": true
+      },
+      "fs": {
+        "all": true
       }
     },
     "security": {
@@ -39,12 +42,6 @@
         "height": 600,
         "minHeight": 300,
         "minWidth": 400
-      },
-      {
-        "label": "install",
-        "title": "安装",
-        "width": 800,
-        "height": 600
       }
     ],
     "bundle": {

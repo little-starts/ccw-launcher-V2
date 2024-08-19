@@ -15,6 +15,10 @@
     transition: all ease-out 0.3s;
 }
 
+.avatar {
+    background-color: #bfbfbf;
+}
+
 @media screen and (max-width: 500px) {
     .title {
         clip-path: inset(0 100% 0 0);

@@ -6,11 +6,6 @@ import Home from './components/body/home';
 import { Value, Window } from './globals';
 
 const App: React.FC = () => {
-  useEffect(() => {
-    console.log(Value.getValue('title'));
-    Value.setValue('title', '共创世界启动器');
-    Window.createWindow('install', '../index.html', 800, 600);
-  }, [])
 
   return (
     <Layout>
