@@ -13,7 +13,6 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ coverURL, title, description }) => (
     <Card className={styles.card}
-        style={{ width: 300 }}
         cover={
             <img
                 alt="cover"
