@@ -4,7 +4,7 @@ import type { InputRef } from 'antd';
 import { Flex, Input, Tag, theme, Tooltip } from 'antd';
 import { appDataDir } from '@tauri-apps/api/path';
 import fs from 'fs'
-import Vaule from '../../../../../globals.ts'
+import { Value } from '../../../../../globals.ts'
 function hslToRgb(h:any, s:any, l:any) {
   var r, g, b;
 
@@ -117,8 +117,8 @@ function getColor(tagName:string){
   //   console.log(`文件写入成功！：${__dirname}\\end.js`)
   // })
   // return color
-  if(Vaule.getValue(`tagColor.${tagName}`)){
-    color = Vaule.getValue(`tagColor.${tagName}`)
+  if(Value.getValue(`tagColor.${tagName}`)){
+    color = Value.getValue(`tagColor.${tagName}`)
   }
   else{
     color = getHsl()[0];
@@ -131,7 +131,7 @@ function getColor(tagName:string){
     let b = color[2]
     color = colorRGB2Hex(r,g,b)
     // color = hexToRGBA(color,0.1)
-    Vaule.setValue(`tagColor.${tagName}`,color)
+    Value.setValue(`tagColor.${tagName}`,color)
   }
   
   
