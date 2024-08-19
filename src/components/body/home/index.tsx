@@ -61,7 +61,7 @@ const Home: React.FC = () => {
                     <ProjectCard
                         coverURL='https://m.ccw.site/works-covers/54034737-8e76-4816-8ac4-36d99267a8b0.png'
                         title='[先锋测试]MMO联机枪战'
-                        description=''
+                        description='测试测试测试'
                     ></ProjectCard>
                 ))}
 
