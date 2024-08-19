@@ -32,7 +32,7 @@ let saveContent: ValueObject = {};
 loadData().then((e) => { saveContent = JSON.parse(e) });
 
 
-const main = {
+const Value = {
     setValue: (key: string, value: string) => {
         saveContent[key] = value;
         saveData(JSON.stringify(saveContent));
@@ -45,4 +45,4 @@ const main = {
         return saveContent[key];
     },
 }
-export default main;
+export default Value;
