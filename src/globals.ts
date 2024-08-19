@@ -1,4 +1,5 @@
 import { invoke } from '@tauri-apps/api/tauri';
+import { appWindow, WebviewWindow } from '@tauri-apps/api/window';
 
 /**
  * 将json字符串储存到本地
@@ -45,4 +46,21 @@ const Value = {
         return saveContent[key];
     },
 }
-export default Value;
+
+
+const Window = {
+    createWindow: async (id: string, url: string, width: number, height: number) => {
+        const newWindow = new WebviewWindow(id, {
+            url: url,
+            width: width,
+            height: height,
+        });
+
+        newWindow.onCloseRequested((message) => {
+            console.log('New window received message:', message);
+        });
+    }
+
+}
+export { Value, Window };
+
