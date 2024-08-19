@@ -2,7 +2,7 @@ import React from 'react';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Avatar, Card } from 'antd';
 import styles from './ProjectCard.module.scss';
-
+import Ttag from './Ttag'
 const { Meta } = Card;
 
 interface ProjectCardProps {
@@ -13,7 +13,8 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ coverURL, title, description }) => (
     <Card className={styles.card}
-        style={{ width: 300 }}
+        style={{ width: 340 }}
+        
         cover={
             <img
                 alt="cover"
@@ -24,7 +25,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ coverURL, title, description 
             <SettingOutlined key="setting" />,
             <EditOutlined key="edit" />,
             <EllipsisOutlined key="ellipsis" />,
+            <Ttag />,
         ]}
+        
     >
         <Meta
             avatar={<Avatar src="https://m.xiguacity.cn/avatar/6107c5323e593a0c25f850f8/5952b150-6683-4f63-bd41-0f6791cb068d.jpeg" />}

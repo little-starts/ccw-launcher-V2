@@ -2,4 +2,7 @@
 replace-with = 'ustc'
 
 [source.ustc]
-registry = 'https://mirrors.ustc.edu.cn/crates.io-index'
+registry = "sparse+https://mirrors.ustc.edu.cn/crates.io-index/"
+
+[http]
+check-revoke = false
