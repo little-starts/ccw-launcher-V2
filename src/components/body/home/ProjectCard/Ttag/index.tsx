@@ -4,7 +4,7 @@ import type { InputRef } from 'antd';
 import { Flex, Input, Tag, theme, Tooltip } from 'antd';
 import { appDataDir } from '@tauri-apps/api/path';
 import fs from 'fs'
-
+import main from '../lib/globals'
 function hslToRgb(h:any, s:any, l:any) {
   var r, g, b;
 
@@ -117,16 +117,25 @@ function getColor(tagName:string){
   //   console.log(`文件写入成功！：${__dirname}\\end.js`)
   // })
   // return color
-  color = getHsl()[0];
-  let h = color[0]
-  let s = color[1]
-  let l = color[2]
-  color = hslToRgb(h,s,l)
-  let r = color[0]
-  let g = color[1]
-  let b = color[2]
-  color = colorRGB2Hex(r,g,b)
-  // color = hexToRGBA(color,0.1)
+  if(main.getValue(`tagColor.${tagName}`)){
+    color = main.getValue(`tagColor.${tagName}`)
+  }
+  else{
+    color = getHsl()[0];
+    let h = color[0]
+    let s = color[1]
+    let l = color[2]
+    color = hslToRgb(h,s,l)
+    let r = color[0]
+    let g = color[1]
+    let b = color[2]
+    color = colorRGB2Hex(r,g,b)
+    // color = hexToRGBA(color,0.1)
+    main.setValue(`tagColor.${tagName}`,color)
+  }
+  
+  
+  
   return color;
 }
 
@@ -144,7 +153,8 @@ const App: React.FC<{ tagname: string[] }> = ({ tagname }) => {
       {tags.map<React.ReactNode>((tag, index) => {
         const isLongTag = tag.length > 12;
         const tagElem = (
-          <Tag key={tag} className='Ttags' color={hexToRGBA(getColor(tag),0.1)}  bordered={true} style={{ border: '1px solid ' + getColor(tag), borderRadius: '4px', padding: '0 8px', height: '24px', lineHeight: '24px', fontSize: '12px', fontWeight: 500, color: getColor(tag)}}>
+          // 元素需要上移20px
+          <Tag key={tag} className='Ttags' color={hexToRGBA(getColor(tag),0.1)}  bordered={true} style={{ border: '1px solid ' + getColor(tag), borderRadius: '4px', padding: '0 8px', height: '24px', lineHeight: '24px', fontSize: '12px', fontWeight: 500, color: getColor(tag),position: 'relative',top:'10px' }}>
             {/* <span className={styles.TtagsText}> */}
             <span style={{ color: getColor(tag) }}>
               {isLongTag ? `${tag.slice(0, 3)}...` : tag}

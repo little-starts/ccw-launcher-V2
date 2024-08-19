@@ -36,7 +36,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ coverURL, title, description 
             title={title}
             description={description}
         />
-        <br />
+        
         <Ttag tagname={["hello","word"]}/>
     </Card>
 );
