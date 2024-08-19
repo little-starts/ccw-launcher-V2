@@ -15,26 +15,37 @@ import {
     MenuUnfoldOutlined,
     PieChartOutlined,
 } from '@ant-design/icons';
+import ccw from '../../../assets/ccw.svg';
+import cocrea from '../../../assets/cocrea.svg';
 
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-    (icon, index) => {
-        const key = String(index + 1);
-
-        return {
-            key: `sub${key}`,
-            icon: React.createElement(icon),
-            label: `subnav ${key}`,
-
-            children: new Array(4).fill(null).map((_, j) => {
-                const subKey = index * 4 + j + 1;
-                return {
-                    key: subKey,
-                    label: `option${subKey}`,
-                };
-            }),
-        };
+// 作为 React 组件使用
+const items2: Array<any> = [
+    {
+        key: `ccw`,
+        icon: <img src={ccw} alt="" style={{ width: '20px' }} />,
+        label: `共创世界`,
+        children: new Array(4).fill(null).map((_, j) => {
+            const subKey = 1 * 4 + j + 1;
+            return {
+                key: subKey,
+                label: `option${subKey}`,
+            };
+        }),
+    }, {
+        key: `cocrea`,
+        icon: <img src={cocrea} alt="" style={{ width: '20px' }} />,
+        label: `cocrea`,
+        children: new Array(4).fill(null).map((_, j) => {
+            const subKey = 1 * 4 + j + 1;
+            return {
+                key: subKey,
+                label: `option${subKey}`,
+            };
+        }),
     },
-);
+];
+
+
 const Home: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [collapsedImpotant, setCollapsedImpotant] = useState(false);
@@ -51,9 +62,8 @@ const Home: React.FC = () => {
 
     return (
         <Content className={styles.content}>
-            <Sider collapsible collapsed={collapsedImpotant ? true : collapsed} onCollapse={(value) => setCollapsed(value)} theme={'light'}>
-                <div className="demo-logo-vertical" />
-                <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={items2} />
+            <Sider collapsible collapsed={collapsedImpotant ? true : collapsed} onCollapse={(value) => setCollapsed(value)} theme={'light'} className={styles.sider}>
+                <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={items2} className={styles.menu} />
             </Sider>
             <Flex wrap justify="space-evenly" align="flex-start" gap="middle" className={styles.div}>
 
@@ -61,7 +71,7 @@ const Home: React.FC = () => {
                     <ProjectCard
                         coverURL='https://m.ccw.site/works-covers/54034737-8e76-4816-8ac4-36d99267a8b0.png'
                         title='[先锋测试]MMO联机枪战'
-                        description=''
+                        description='1145141919810xdrckmrcdtvjcdrjimrcdftvygubhinjmtrdcfvygubhinjidrcftvgbyhnu'
                     ></ProjectCard>
                 ))}
 
@@ -76,7 +86,6 @@ const Home: React.FC = () => {
                 <FloatButton />
                 <FloatButton icon={<CommentOutlined />} />
             </FloatButton.Group>
-
         </Content >
     );
 };

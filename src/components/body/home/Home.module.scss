@@ -23,3 +23,17 @@
     overflow: scroll;
     overflow-x: hidden;
 }
+
+.sider {
+    height: calc(100vh - 64px);
+    overflow: auto;
+}
+
+.sider::-webkit-scrollbar {
+    display: none;
+    width: 0px;
+}
+
+.menu {
+    padding-bottom: 48px;
+}
