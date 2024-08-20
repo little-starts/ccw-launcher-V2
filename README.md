@@ -1,5 +1,5 @@
 # CCW Luncher
-If you want to visit the Chinese version, you can find it [here](readme/Chinese.md).
+If you want to visit the Chinese version, you can find it [here](README_ZH.md).
 
 ## Info
 > A launcher based on tauri for running a china cocrea

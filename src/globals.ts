@@ -47,6 +47,7 @@ const Value = {
     },
 }
 
+
 const Window = {
     createWindow: async (id: string, url: string, path: string, name: string = '共创世界启动器') => {
         invoke('create_and_inject_js', {
@@ -79,3 +80,4 @@ const Window = {
     }
 }
 export { Value, Window };
+
