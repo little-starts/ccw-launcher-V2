@@ -1,15 +1,26 @@
 import React, { useEffect } from 'react';
-import { Breadcrumb, FloatButton, Layout, Menu, MenuProps, theme } from 'antd';
+import { Layout } from 'antd';
 import Navbar from './components/header/header';
 import styles from './App.module.scss';
 import Home from './components/body/home';
-import { Value, Window } from './globals';
+import { listen } from '@tauri-apps/api/event';
+
+interface CustomEventPayload {
+  payload: string;
+}
 
 const App: React.FC = () => {
+
   useEffect(() => {
-    console.log(Value.getValue('title'));
-    Value.setValue('title', '共创世界启动器');
-    Window.createWindow('install', '../index.html', 800, 600);
+    console.log('App is mounted');
+    listen('ccw', (event: CustomEventPayload) => {
+      console.log(event, event.payload, event.payload);
+      if (event.payload === 'reload') {
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+      }
+    });
   }, [])
 
   return (

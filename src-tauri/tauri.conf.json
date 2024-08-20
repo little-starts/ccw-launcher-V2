@@ -18,15 +18,46 @@
       },
       "window": {
         "all": true
+      },
+      "fs": {
+        "all": true,
+        "readFile": true,
+        "writeFile": true,
+        "readDir": true,
+        "copyFile": true,
+        "createDir": true,
+        "removeDir": true,
+        "removeFile": true,
+        "renameFile": true,
+        "exists": true,
+        "scope": [
+          "$APPDATA/**",
+          "$APPDATA/*",
+          "$APPDATA/",
+          "$APPDATA"
+        ]
       }
     },
     "security": {
-      "csp": "default-src 'self' https://*; script-src 'self' 'unsafe-inline' https://*;",
+      "csp": null,
       "dangerousRemoteDomainIpcAccess": [
         {
           "domain": "www.ccw.site",
           "windows": [
-            "main"
+            "main",
+            "ccw",
+            "登录",
+            "管理登录"
+          ],
+          "enableTauriAPI": true
+        },
+        {
+          "domain": "graph.qq.com",
+          "windows": [
+            "main",
+            "ccw",
+            "登录",
+            "管理登录"
           ],
           "enableTauriAPI": true
         }
@@ -39,18 +70,12 @@
         "height": 600,
         "minHeight": 300,
         "minWidth": 400
-      },
-      {
-        "label": "install",
-        "title": "安装",
-        "width": 800,
-        "height": 600
       }
     ],
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "ccw.launcher.com",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
