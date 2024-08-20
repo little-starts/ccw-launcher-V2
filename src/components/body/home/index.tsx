@@ -1,20 +1,10 @@
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import ProjectCard from './ProjectCard';
-import { Button, Flex, FloatButton, Menu, MenuProps, theme } from 'antd'
+import { Flex, FloatButton, Menu } from 'antd'
 import styles from './Home.module.scss';
 import Sider from 'antd/es/layout/Sider';
 import { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons';
 import { Content } from 'antd/es/layout/layout';
-import {
-    AppstoreOutlined,
-    ContainerOutlined,
-    DesktopOutlined,
-    MailOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    PieChartOutlined,
-} from '@ant-design/icons';
 import ccw from '../../../assets/ccw.svg';
 import cocrea from '../../../assets/cocrea.svg';
 
@@ -67,11 +57,13 @@ const Home: React.FC = () => {
             </Sider>
             <Flex wrap justify="space-evenly" align="flex-start" gap="middle" className={styles.div}>
 
-                {Array.from({ length: 24 }, (_, i) => (
+                {Array.from({ length: 24 }, (_) => (
                     <ProjectCard
-                        coverURL='https://m.ccw.site/works-covers/54034737-8e76-4816-8ac4-36d99267a8b0.png'
-                        title='[先锋测试]MMO联机枪战'
-                        description='1145141919810xdrckmrcdtvjcdrjimrcdftvygubhinjmtrdcfvygubhinjidrcftvgbyhnu'
+                        coverURL='https://m.ccw.site/works-covers/642b41c4-51a4-449c-82fa-b64d57af2061.png'
+                        title='核心共振[联机]'
+                        description='感谢大家的试玩\n如有bug、建议可以发到评论区\n核心共振讨论区：993746347😘\n个人主页还没做完，目前发出来测试下头像大小有没有问题√'
+                        projectID='65c2e0b226e91810b6112576'
+                        authorImg='https://m.ccw.site/avatar/62fdd7337c888254d55c765d/bfdcab7f-4e9e-43b0-b117-ba670c627dd4.jpg'
                     ></ProjectCard>
                 ))}
 

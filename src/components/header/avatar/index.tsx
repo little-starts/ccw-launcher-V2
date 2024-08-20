@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { appDataDir } from '@tauri-apps/api/path';
 import { readBinaryFile, exists } from '@tauri-apps/api/fs';
 

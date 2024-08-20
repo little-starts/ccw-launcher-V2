@@ -1,5 +1,5 @@
 import { invoke } from '@tauri-apps/api/tauri';
-import { appWindow, WebviewWindow } from '@tauri-apps/api/window';
+import { WebviewWindow } from '@tauri-apps/api/window';
 
 /**
  * 将json字符串储存到本地
@@ -48,12 +48,34 @@ const Value = {
 }
 
 const Window = {
-    createWindow: async (id: string, url: string) => {
+    createWindow: async (id: string, url: string, path: string, name: string = '共创世界启动器') => {
         invoke('create_and_inject_js', {
             label: id,
+            identifier: id,
             url: url,
-        }).catch((error) => console.error('Failed to create window:', error));
-    }
+            path: path,
+            name: name
+        }).catch((error) => {
+            console.error('Failed to create window:', error);
+            Window.focusWindow(id);
+        });
+    },
+    postMessage: async (id: string, title: string, message: any) => {
+        invoke('post_message', {
+            title: title,
+            id: id,
+            message: message
+        }).catch((error) => console.error('Failed to post message:', error));
+    },
+    focusWindow: async (id: string) => {
+        const targetWindow = WebviewWindow.getByLabel(id);
 
+        if (targetWindow) {
+            // 将窗口前置
+            await targetWindow.setFocus();
+        } else {
+            console.error(`Window with label "${id}" not found.`);
+        }
+    }
 }
 export { Value, Window };
