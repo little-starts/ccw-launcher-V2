@@ -149,7 +149,13 @@ const App: React.FC<{ tagname: string[] }> = ({ tagname }) => {
             }}
           >
             {/* 样式需要使用getColor来获取颜色，所以使用元素内样式而不是className */}
-            <span style={{ color: getColor(tag) }}>
+            <span
+              style={{
+                color: getColor(tag),
+                position: "relative",
+                top: "-1px",
+              }}
+            >
               {isLongTag ? `${tag.slice(0, 3)}...` : tag}
             </span>
           </Tag>
