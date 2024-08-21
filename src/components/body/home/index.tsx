@@ -3,7 +3,6 @@ import ProjectCard from './ProjectCard';
 import { Flex, FloatButton, Menu, Tooltip } from 'antd'
 import styles from './Home.module.scss';
 import Sider from 'antd/es/layout/Sider';
-import { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons';
 import { Content } from 'antd/es/layout/layout';
 import ccw from '../../../assets/ccw.svg';
 import cocrea from '../../../assets/cocrea.svg';

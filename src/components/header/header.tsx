@@ -3,7 +3,7 @@ import { Layout, Menu, Button, Avatar, Tooltip } from 'antd';
 import styles from './Navbar.module.scss';
 import Logo from '../../assets/logo-ccw.png';
 import { appDataDir } from '@tauri-apps/api/path';
-import { BaseDirectory, exists, readBinaryFile } from '@tauri-apps/api/fs';
+import { BaseDirectory, readBinaryFile } from '@tauri-apps/api/fs';
 import AvatarIcon from './avatar/index';
 import { UserOutlined } from '@ant-design/icons';
 import { Window } from '../../globals';

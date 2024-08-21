@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Flex, Tag, Tooltip } from "antd";
 
@@ -124,9 +124,13 @@ function getColor(tagName: string) {
 const App: React.FC<{ tagname: string[] }> = ({ tagname }) => {
   const [tags, setTags] = useState<string[]>(tagname); // 使用传入的tagname初始化tags
 
+  useEffect(() => {
+    setTags(tagname);
+  }, [])
+
   return (
     <Flex gap="4px 0" wrap>
-      {tags.map<React.ReactNode>((tag, index) => {
+      {tags.map<React.ReactNode>((tag) => {
         const isLongTag = tag.length > 12;
         const tagElem = (
           <Tag
