@@ -8,6 +8,7 @@ import ccw from '../../../assets/ccw.svg';
 import cocrea from '../../../assets/cocrea.svg';
 import Plus from '../../../assets/plus.svg';
 import Install from '../../../assets/install.svg';
+import { Window } from '../../../globals';
 
 // 作为 React 组件使用
 const items2: Array<any> = [
@@ -36,6 +37,9 @@ const items2: Array<any> = [
     },
 ];
 
+const handleInstallClick = () => {
+    Window.createWindow('install', 'https://www.ccw.site', "../src/null.js", '安装');
+};
 
 const Home: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
@@ -79,7 +83,7 @@ const Home: React.FC = () => {
                     icon={<img src={Plus} alt="" style={{ width: '18px' }} />}
                 >
                     <Tooltip placement="left" title="安装游戏">
-                        <FloatButton icon={<img src={Install} alt="" style={{ width: '18px' }} />} />
+                        <FloatButton icon={<img src={Install} alt="" style={{ width: '18px' }} onClick={handleInstallClick} />} />
                     </Tooltip>
                 </FloatButton.Group>
             </Tooltip>

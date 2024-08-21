@@ -1,5 +1,6 @@
 use reqwest::blocking::get;
 use reqwest::Url;
+use serde::de::value;
 use std::fs;
 use std::fs::File;
 use std::io::copy;
@@ -8,6 +9,50 @@ use tauri::Manager;
 use tauri::Window;
 use tauri::{command, AppHandle};
 use tauri::{WindowBuilder, WindowUrl};
+
+// 定义全局常量，使用 `static` 关键字
+struct HackUrlLogin;
+
+impl HackUrlLogin {
+    fn get_js_code() -> &'static str {
+        r#"
+    window.addEventListener('load', function () {
+        console.log('Page loaded');
+    });
+    setTimeout(() => {
+        console.log(window.location.pathname);
+        if (window.location.pathname !== '/profile/personal') {
+            window.__TAURI_INVOKE__('inject_js_with_delay', { value: 'HACK_URL_LOGIN', id: 'login' })
+                .then(() => console.log('Rust function called successfully!'))
+                .catch((error) => console.error('Failed to call Rust function:', error));
+        }
+    }, 100);
+
+    if (window.location.pathname === '/profile/personal') {
+        setTimeout(() => {
+            alert('User is on the login page');
+            const url = document.querySelectorAll('.c-avatar-img')[0].getAttribute('src');
+            const urlObj = new URL(url);
+            // 设置新的查询参数
+            urlObj.search = 'x-oss-process=image/format,png/resize,h_100';
+
+            window.__TAURI_INVOKE__('save_image', { url: urlObj.toString() })
+                .then(() => {
+                    console.log('Image saved successfully!');
+                    window.__TAURI_INVOKE__('post_message', {
+                        title: 'ccw',
+                        id: 'main',
+                        content: 'reload'
+                    });
+                })
+                .catch((error) => console.error('Failed to call Rust function:', error));
+        }, 1000);
+    }
+
+    console.log('Hello from Tauri!');
+        "#
+    }
+}
 
 #[command]
 fn save_string_to_file(app_handle: AppHandle, data: String) -> Result<(), String> {
@@ -92,27 +137,24 @@ fn create_and_inject_js(
     .build()
     .map_err(|e| e.to_string())?;
 
-    // 读取本地 JavaScript 文件
-    let js_file_path = path;
-    let js_code = fs::read_to_string(js_file_path).expect("Failed to read JavaScript file");
-
     // 注入 JavaScript
-    new_window.eval(&js_code).map_err(|e| e.to_string())?;
+    new_window.eval(&path).map_err(|e| e.to_string())?;
 
     Ok(())
 }
 
 #[tauri::command]
-fn inject_js_with_delay(window: Window, path: String, id: String) {
+fn inject_js_with_delay(window: Window, value: String, id: String) {
     // 在异步任务中等待 5 秒后注入 JavaScript
     tauri::async_runtime::spawn(async move {
         // 等待 5 秒
         tokio::time::sleep(std::time::Duration::from_secs(3)).await;
         let ccw_window = window.get_window(&id);
         if let Some(ccw_window) = ccw_window {
-            // 读取本地 JavaScript 文件
-            let js_file_path = path;
-            let js_code = fs::read_to_string(js_file_path).expect("Failed to read JavaScript file");
+            let js_code = match value.as_str() {
+                "HACK_URL_LOGIN" => HackUrlLogin::get_js_code(),
+                _ => "", // 如果 `value` 不匹配任何结构体，返回空字符串
+            };
 
             let result = ccw_window.eval(&js_code);
             if let Err(e) = result {
@@ -143,18 +185,6 @@ fn main() {
             inject_js_with_delay,
             post_message
         ])
-        .setup(|app| {
-            let window = app.get_window("main").unwrap();
-
-            // 读取本地 JavaScript 文件
-            let js_file_path = "../src/mainScript.js";
-            let js_code = fs::read_to_string(js_file_path).expect("Failed to read JavaScript file");
-
-            // 注入 JavaScript 代码
-            window.eval(&js_code).unwrap();
-
-            Ok(())
-        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

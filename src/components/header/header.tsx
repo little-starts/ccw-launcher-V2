@@ -37,12 +37,50 @@ const itemSelect = ({ key }: any) => {
     // 处理其他逻辑
 };
 
+const login = `
+    window.addEventListener('load', function () {
+        console.log('Page loaded');
+    });
+    setTimeout(() => {
+        console.log(window.location.pathname);
+        if (window.location.pathname !== '/profile/personal') {
+            window.__TAURI_INVOKE__('inject_js_with_delay', { value: 'HACK_URL_LOGIN', id: 'login' })
+                .then(() => console.log('Rust function called successfully!'))
+                .catch((error) => console.error('Failed to call Rust function:', error));
+        }
+    }, 100);
+
+    if (window.location.pathname === '/profile/personal') {
+        setTimeout(() => {
+            alert('登录成功');
+            const url = document.querySelectorAll('.c-avatar-img')[0].getAttribute('src');
+            const urlObj = new URL(url);
+            // 设置新的查询参数
+            urlObj.search = 'x-oss-process=image/format,png/resize,h_100';
+
+            window.__TAURI_INVOKE__('save_image', { url: urlObj.toString() })
+                .then(() => {
+                    console.log('Image saved successfully!');
+                    window.__TAURI_INVOKE__('post_message', {
+                        title: 'ccw',
+                        id: 'main',
+                        content: 'reload'
+                    });
+                })
+                .catch((error) => console.error('Failed to call Rust function:', error));
+        }, 1000);
+    }
+
+    console.log('Hello from Tauri!');
+`
+
 const Navbar: React.FC = () => {
     const [imgSrc, setImgSrc] = useState<boolean | string>(false);
 
     const log = () => {
         if (!imgSrc) {
-            Window.createWindow('login', 'https://www.ccw.site/login?redirect=https://www.ccw.site/profile/personal', "../src/page/login/hack.js", '登录');
+
+            Window.createWindow('login', 'https://www.ccw.site/login?redirect=https://www.ccw.site/profile/personal', login, '登录');
         } else {
             Window.createWindow('ManagementLogin', 'https://www.ccw.site/profile/personal', "../src/null.js", '管理登录');
         }
