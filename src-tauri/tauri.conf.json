@@ -73,6 +73,11 @@
       }
     ],
     "bundle": {
+      "windows": {
+        "webviewInstallMode": {
+          "type": "embedBootstrapper"
+        }
+      },
       "active": true,
       "targets": "all",
       "identifier": "ccw.launcher.com",
