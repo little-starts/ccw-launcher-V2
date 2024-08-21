@@ -32,3 +32,17 @@ if (window.location.pathname === '/profile/personal') {
 }
 
 console.log('Hello from Tauri!');
+
+window.open = function (url, name, specs) {
+    invoke('create_and_inject_js', {
+        label: name,
+        identifier: name,
+        url: url,
+        path: '',
+        name: name
+    }).catch((error) => {
+        console.error('Failed to create window:', error);
+        Window.focusWindow(id);
+    });
+    return null; // window.open usually returns a reference to the window, but Tauri doesn't support this.
+};

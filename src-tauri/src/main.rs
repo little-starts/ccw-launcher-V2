@@ -12,6 +12,28 @@ use tauri::{WindowBuilder, WindowUrl};
 
 // 定义全局常量，使用 `static` 关键字
 struct HackUrlLogin;
+struct APPHACK;
+
+impl APPHACK {
+    fn get_js_code() -> &'static str {
+        r#"
+    console.log('get_js_code');
+    window.open = function (url, name, specs) {
+    console.log(url);
+    let urls = url;
+    if(url.startsWith('/')) {
+            urls = window.location.origin + url;
+    }
+    window.__TAURI_INVOKE__('inject_js_with_delay', { value: 'HACK_URL_INSTALL', id: 'install' })
+            .then(() => console.log('Rust function called successfully!'))
+            .catch((error) => console.error('Failed to call Rust function:', error));
+    window.location.replace(urls);
+    return null; // window.open usually returns a reference to the window, but Tauri doesn't support this.
+};
+
+        "#
+    }
+}
 
 impl HackUrlLogin {
     fn get_js_code() -> &'static str {
@@ -136,9 +158,10 @@ fn create_and_inject_js(
     .title(&name) // 使用标签作为窗口标题
     .build()
     .map_err(|e| e.to_string())?;
-
+    let js_code = APPHACK::get_js_code();
     // 注入 JavaScript
     new_window.eval(&path).map_err(|e| e.to_string())?;
+    new_window.eval(&js_code).map_err(|e| e.to_string())?;
 
     Ok(())
 }
@@ -153,6 +176,7 @@ fn inject_js_with_delay(window: Window, value: String, id: String) {
         if let Some(ccw_window) = ccw_window {
             let js_code = match value.as_str() {
                 "HACK_URL_LOGIN" => HackUrlLogin::get_js_code(),
+                "HACK_URL_INSTALL" => APPHACK::get_js_code(),
                 _ => "", // 如果 `value` 不匹配任何结构体，返回空字符串
             };
 

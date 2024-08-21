@@ -50,7 +50,9 @@
             "main",
             "ccw",
             "login",
-            "ManagementLogin"
+            "ManagementLogin",
+            "install",
+            "web"
           ],
           "enableTauriAPI": true
         },
@@ -60,7 +62,9 @@
             "main",
             "ccw",
             "login",
-            "ManagementLogin"
+            "ManagementLogin",
+            "install",
+            "web"
           ],
           "enableTauriAPI": true
         }
