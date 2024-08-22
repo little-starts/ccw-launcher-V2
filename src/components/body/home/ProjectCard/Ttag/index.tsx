@@ -99,11 +99,13 @@ function getHsl() {
   }
   return HSL;
 }
-function getColor(tagName: string) {
+async function getColor(tagName: string) {
   let color: any = "#000000";
 
-  if (Value.getValue(`tagColor.${tagName}`)) {
-    color = Value.getValue(`tagColor.${tagName}`);
+  let tagColor = JSON.parse(await Value.getValue(`tagColor`))
+
+  if (tagColor[tagName]) {
+    color = tagColor[tagName];
   } else {
     color = getHsl()[0];
     let h = color[0];
@@ -115,7 +117,8 @@ function getColor(tagName: string) {
     let b = color[2];
     color = colorRGB2Hex(r, g, b);
     // color = hexToRGBA(color,0.1)
-    Value.setValue(`tagColor.${tagName}`, color);
+    tagColor[tagName] = color;
+    Value.setValue(`tagColor`, JSON.stringify(tagColor));
   }
 
   return color;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProjectCard from './ProjectCard';
-import { Flex, FloatButton, Menu, Tooltip } from 'antd'
+import { Button, Empty, Flex, FloatButton, Menu, Tooltip, Typography } from 'antd'
 import styles from './Home.module.scss';
 import Sider from 'antd/es/layout/Sider';
 import { Content } from 'antd/es/layout/layout';
@@ -64,7 +64,7 @@ const Home: React.FC = () => {
             </Sider>
             <Flex wrap justify="space-evenly" align="flex-start" gap="middle" className={styles.div}>
 
-                {Array.from({ length: 24 }, (_) => (
+                {/* {Array.from({ length: 24 }, (_) => (
                     <ProjectCard
                         coverURL='https://m.ccw.site/works-covers/642b41c4-51a4-449c-82fa-b64d57af2061.png'
                         title='核心共振[联机]'
@@ -72,21 +72,30 @@ const Home: React.FC = () => {
                         projectID='65c2e0b226e91810b6112576'
                         authorImg='https://m.ccw.site/avatar/62fdd7337c888254d55c765d/bfdcab7f-4e9e-43b0-b117-ba670c627dd4.jpg'
                     ></ProjectCard>
-                ))}
+                ))} */}
+                <Empty
+                    image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                    imageStyle={{ height: 60 }}
+                    description={
+                        <Typography.Text>
+                            还没有导入作品哦
+                        </Typography.Text>
+                    }
+                >
+                    <Button type="primary" onClick={handleInstallClick}>立即导入</Button>
+                </Empty>
 
             </Flex>
-            <Tooltip placement="left" title="菜单">
-                <FloatButton.Group
-                    trigger="click"
-                    type="primary"
-                    style={{ insetInlineEnd: 24 }}
-                    icon={<img src={Plus} alt="" style={{ width: '18px' }} />}
-                >
-                    <Tooltip placement="left" title="安装游戏">
-                        <FloatButton icon={<img src={Install} alt="" style={{ width: '18px' }} onClick={handleInstallClick} />} />
-                    </Tooltip>
-                </FloatButton.Group>
-            </Tooltip>
+            <FloatButton.Group
+                trigger="click"
+                type="primary"
+                style={{ insetInlineEnd: 24 }}
+                icon={<img src={Plus} alt="" style={{ width: '18px' }} />}
+            >
+                <Tooltip placement="left" title="导入游戏">
+                    <FloatButton icon={<img src={Install} alt="" style={{ width: '18px' }} onClick={handleInstallClick} />} />
+                </Tooltip>
+            </FloatButton.Group>
         </Content >
     );
 };
