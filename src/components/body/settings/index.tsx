@@ -20,7 +20,7 @@ import Sider from "antd/es/layout/Sider";
 import { FormInstance } from "antd/es/form";
 import { listen } from "@tauri-apps/api/event";
 import styles from "./setting.module.scss";
-
+import { Window } from "../../../globals";
 interface SettingItem {
   type: string; // 组件类型，如'input'
   label: string; // 设置项的标签
@@ -29,46 +29,18 @@ interface SettingItem {
   options?: any; // Cascader组件的选项
   //width默认值为100%
   width?: string;
+  // 唯一标识符
 }
-const items2: Array<any> = [
-  { key: "1", label: "Option 1" },
-  { key: "2", label: "Option 2" },
-  { key: "3", label: "Option 3" },
-  {
-    key: "sub1",
-    label: "Navigation One",
 
-    children: [
-      { key: "5", label: "Option 5" },
-      { key: "6", label: "Option 6" },
-      { key: "7", label: "Option 7" },
-      { key: "8", label: "Option 8" },
-    ],
-  },
-  {
-    key: "sub2",
-    label: "Navigation Two",
-
-    children: [
-      { key: "9", label: "Option 9" },
-      { key: "10", label: "Option 10" },
-      {
-        key: "sub3",
-        label: "Submenu",
-        children: [
-          { key: "11", label: "Option 11" },
-          { key: "12", label: "Option 12" },
-        ],
-      },
-    ],
-  },
-];
-
-const Setting: React.FC<{ settingList: SettingItem[] }> = ({ settingList }) => {
+const Setting: React.FC<{ settingList: SettingItem[]; items2: Array<any> }> = ({
+  settingList,
+  items2,
+}) => {
   const [collapsed, setCollapsed] = useState(false);
   const [collapsedImpotant, setCollapsedImpotant] = useState(false);
   const [form] = Form.useForm(); // 创建表单实例
   const [show, setShow] = useState(false);
+
   listen("goOtherPage", (e) => {
     if (e.payload === "setting") {
       setShow(true);
@@ -195,6 +167,12 @@ const Setting: React.FC<{ settingList: SettingItem[] }> = ({ settingList }) => {
   };
   return (
     <Content className={styles.content}>
+      {/* 设置此页面中所有clss为ant-layout-sider-trigger的元素不显示 */}
+      <style>{`
+       .ant-layout-sider-trigger {
+          display: none;
+        }
+      `}</style>
       <Sider
         collapsible
         collapsed={collapsedImpotant ? true : collapsed}
@@ -208,6 +186,9 @@ const Setting: React.FC<{ settingList: SettingItem[] }> = ({ settingList }) => {
           mode="inline"
           items={items2}
           className={styles.menu}
+          onClick={(e) => {
+            Window.postMessage("main", "settingOptionUpdate", e.key);
+          }}
         />
       </Sider>
       <Flex
