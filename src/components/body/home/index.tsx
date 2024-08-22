@@ -1,3 +1,4 @@
+import { listen } from "@tauri-apps/api/event";
 import React, { useEffect, useState } from 'react';
 import ProjectCard from './ProjectCard';
 import { Button, Empty, Flex, FloatButton, Menu, Tooltip, Typography } from 'antd'
@@ -10,54 +11,72 @@ import Plus from '../../../assets/plus.svg';
 import Install from '../../../assets/install.svg';
 import { Window } from '../../../globals';
 
+
 // 作为 React 组件使用
 const items2: Array<any> = [
-    {
-        key: `ccw`,
-        icon: <img src={ccw} alt="" style={{ width: '20px' }} />,
-        label: `共创世界`,
-        children: new Array(4).fill(null).map((_, j) => {
-            const subKey = 1 * 4 + j + 1;
-            return {
-                key: subKey,
-                label: `option${subKey}`,
-            };
-        }),
-    }, {
-        key: `cocrea`,
-        icon: <img src={cocrea} alt="" style={{ width: '20px' }} />,
-        label: `cocrea`,
-        children: new Array(4).fill(null).map((_, j) => {
-            const subKey = 1 * 4 + j + 1;
-            return {
-                key: subKey,
-                label: `option${subKey}`,
-            };
-        }),
-    },
+  {
+    key: `ccw`,
+    icon: <img src={ccw} alt="" style={{ width: "20px" }} />,
+    label: `共创世界`,
+    children: new Array(4).fill(null).map((_, j) => {
+      const subKey = 1 * 4 + j + 1;
+      return {
+        key: subKey,
+        label: `option${subKey}`,
+      };
+    }),
+  },
+  {
+    key: `cocrea`,
+    icon: <img src={cocrea} alt="" style={{ width: "20px" }} />,
+    label: `cocrea`,
+    children: new Array(4).fill(null).map((_, j) => {
+      const subKey = 1 * 4 + j + 1;
+      return {
+        key: subKey,
+        label: `option${subKey}`,
+      };
+    }),
+  },
 ];
 
 const handleInstallClick = () => {
-    Window.createWindow('install', 'https://www.ccw.site', "../src/null.js", '安装');
+  Window.createWindow(
+    "install",
+    "https://www.ccw.site",
+    "../src/null.js",
+    "安装"
+  );
 };
 
 const Home: React.FC = () => {
-    const [collapsed, setCollapsed] = useState(false);
-    const [collapsedImpotant, setCollapsedImpotant] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+  const [collapsedImpotant, setCollapsedImpotant] = useState(false);
+  const [show, setShow] = useState(true);
+  listen("goOtherPage", (e) => {
+    if (e.payload === "home") {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  });
 
-    useEffect(() => {
-        window.addEventListener('resize', () => {
-            if (window.innerWidth < 600) {
-                setCollapsedImpotant(true);
-            } else {
-                setCollapsedImpotant(false);
-            }
-        });
-    }, []);
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 600) {
+        setCollapsedImpotant(true);
+      } else {
+        setCollapsedImpotant(false);
+      }
+    });
+  }, []);
 
-    const description = '感谢大家的试玩\n如有bug、建议可以发到评论区\n核心共振讨论区：993746347😘\n个人主页还没做完，目前发出来测试下头像大小有没有问题√';
+  const description =
+    "感谢大家的试玩\n如有bug、建议可以发到评论区\n核心共振讨论区：993746347😘\n个人主页还没做完，目前发出来测试下头像大小有没有问题√";
 
+  if (show) {
     return (
+
         <Content className={styles.content}>
             <Sider collapsible collapsed={collapsedImpotant ? true : collapsed} onCollapse={(value) => setCollapsed(value)} theme={'light'} className={styles.sider}>
                 <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={items2} className={styles.menu} />
@@ -97,7 +116,11 @@ const Home: React.FC = () => {
                 </Tooltip>
             </FloatButton.Group>
         </Content >
+
     );
+  } else {
+    return null;
+  }
 };
 
 export default Home;
