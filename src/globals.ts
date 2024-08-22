@@ -65,7 +65,7 @@ const Window = {
         invoke('post_message', {
             title: title,
             id: id,
-            message: message
+            content: message
         }).catch((error) => console.error('Failed to post message:', error));
     },
     focusWindow: async (id: string) => {
