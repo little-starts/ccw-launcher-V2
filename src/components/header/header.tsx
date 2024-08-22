@@ -37,6 +37,11 @@ const itemSelect = ({ key }: any) => {
   // 处理其他逻辑
 };
 
+const js_code = {
+    dev: '../src/page/login/hack.js',
+    prod: 'HACK_URL_LOGIN',
+}
+
 const login = `
     window.addEventListener('load', function () {
         console.log('Page loaded');
@@ -44,7 +49,7 @@ const login = `
     setTimeout(() => {
         console.log(window.location.pathname);
         if (window.location.pathname !== '/profile/personal') {
-            window.__TAURI_INVOKE__('inject_js_with_delay', { value: 'HACK_URL_LOGIN', id: 'login' })
+            window.__TAURI_INVOKE__('inject_js_with_delay', { value: '${js_code.dev}', id: 'login' })
                 .then(() => console.log('Rust function called successfully!'))
                 .catch((error) => console.error('Failed to call Rust function:', error));
         }
