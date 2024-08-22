@@ -24,7 +24,7 @@ impl APPHACK {
     if(url.startsWith('/')) {
             urls = window.location.origin + url;
     }
-    window.__TAURI_INVOKE__('inject_js_with_delay', { value: 'HACK_URL_INSTALL', id: 'install' })
+    window.__TAURI_INVOKE__('inject_js_with_delay', { value: 'HACK_URL_APP', id: 'install' })
             .then(() => console.log('Rust function called successfully!'))
             .catch((error) => console.error('Failed to call Rust function:', error));
     window.location.replace(urls);
@@ -158,7 +158,12 @@ fn create_and_inject_js(
     .title(&name) // 使用标签作为窗口标题
     .build()
     .map_err(|e| e.to_string())?;
-    let js_code = APPHACK::get_js_code();
+
+    //dev
+    let js_file_path = "../src/page/app/hack.js";
+    let js_code = fs::read_to_string(js_file_path).expect("Failed to read JavaScript file");
+    //prod
+    // let js_code: &str = APPHACK::get_js_code();
     // 注入 JavaScript
     new_window.eval(&path).map_err(|e| e.to_string())?;
     new_window.eval(&js_code).map_err(|e| e.to_string())?;
@@ -174,11 +179,16 @@ fn inject_js_with_delay(window: Window, value: String, id: String) {
         tokio::time::sleep(std::time::Duration::from_secs(3)).await;
         let ccw_window = window.get_window(&id);
         if let Some(ccw_window) = ccw_window {
-            let js_code = match value.as_str() {
-                "HACK_URL_LOGIN" => HackUrlLogin::get_js_code(),
-                "HACK_URL_INSTALL" => APPHACK::get_js_code(),
-                _ => "", // 如果 `value` 不匹配任何结构体，返回空字符串
-            };
+            //prod
+            // let js_code = match value.as_str() {
+            //     "HACK_URL_LOGIN" => HackUrlLogin::get_js_code(),
+            //     "HACK_URL_APP" => APPHACK::get_js_code(),
+            //     _ => &value, // 如果 `value` 不匹配任何结构体，返回空字符串
+            // };
+
+            //dev
+            let js_file_path = value;
+            let js_code = fs::read_to_string(js_file_path).expect("Failed to read JavaScript file");
 
             let result = ccw_window.eval(&js_code);
             if let Err(e) = result {

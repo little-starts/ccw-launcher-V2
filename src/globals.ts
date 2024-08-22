@@ -35,15 +35,26 @@ loadData().then((e) => { saveContent = JSON.parse(e) });
 
 const Value = {
     setValue: (key: string, value: string) => {
-        saveContent[key] = value;
-        saveData(JSON.stringify(saveContent));
+        loadData().then((e) => {
+            saveContent = JSON.parse(e)
+            saveContent[key] = value;
+            saveData(JSON.stringify(saveContent));
+        });
     },
     deleteKey: (key: string) => {
-        delete saveContent[key];
-        saveData(JSON.stringify(saveContent));
+        loadData().then((e) => {
+            saveContent = JSON.parse(e)
+            delete saveContent[key];
+            saveData(JSON.stringify(saveContent));
+        });
     },
     getValue: (key: string) => {
-        return saveContent[key];
+        return new Promise((resolve) => {
+            loadData().then((e) => {
+                saveContent = JSON.parse(e)
+                resolve(saveContent[key]);
+            });
+        }) as Promise<string | undefined>;
     },
 }
 
