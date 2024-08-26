@@ -22,6 +22,9 @@
       "window": {
         "all": true
       },
+      "shell": {
+        "all": true
+      },
       "fs": {
         "all": true,
         "readFile": true,
@@ -52,7 +55,10 @@
             "login",
             "ManagementLogin",
             "install",
-            "web"
+            "web",
+            "logout",
+            "update",
+            "gandi"
           ],
           "enableTauriAPI": true
         },
@@ -64,7 +70,10 @@
             "login",
             "ManagementLogin",
             "install",
-            "web"
+            "web",
+            "logout",
+            "update",
+            "gandi"
           ],
           "enableTauriAPI": true
         }
@@ -76,7 +85,8 @@
         "width": 800,
         "height": 600,
         "minHeight": 300,
-        "minWidth": 400
+        "minWidth": 400,
+        "maximized": true
       }
     ],
     "bundle": {
