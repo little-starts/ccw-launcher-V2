@@ -6,6 +6,31 @@ let div, divs, divv, divvs, news, background, Operatinginstructions, bug, discor
 let start = 0;
 let cvs;
 let hrefs;
+
+let interval, tickTime = 1000;
+function tick() {
+    console.log("tick");
+    let s = document.getElementById("WitCatBBcode启动器数据交互");
+    if (s !== null && s !== undefined && s.innerText.split("ↀ").length == 3) {
+        console.log(s.innerText);
+        let v = s.innerText.split("ↀ");
+        if (v[2] == 'return') {
+            eval(`aardio.${v[0]}(${v[1]})`).then((e) => {
+                s.firstChild.innerText = e;
+            })
+        }
+        else if (v[2] == 'do') {
+            eval(`aardio.${v[0]}(${v[1]})`)
+            s.remove();
+        }
+        else {
+            tickTime = v[2] > 1500 ? 1500 : (v[2] < 10 ? 10 : v[2]);
+            clearInterval(interval);
+            interval = setInterval(tick(), tickTime);
+        }
+    }
+}
+
 function fillin() {
     fill = 1;
     var mo = function (e) { e.preventDefault(); };
@@ -106,12 +131,12 @@ let a = setInterval(() => {
     if (s.length !== 0) {
         s[0].click();
         clearInterval(a);
+        interval = setInterval(tick(), tickTime);
     }
 }, 100);
 let b = setInterval(() => {
     let s = document.getElementsByClassName("main-module_menu_e828e")
     if (s.length !== 0) {
-        aardio.resizeable();
         cvs = document.getElementsByTagName("canvas")[0];
         fillin();
         const config = { attributes: true, childList: true, subtree: true, attributeFilter: ['style'] };
@@ -133,26 +158,3 @@ window.addEventListener('resize', () => {
         fills();
     }
 })
-let interval, tickTime = 1000;
-function tick() {
-    let s = document.getElementById("WitCatBBcode启动器数据交互");
-    if (s !== null && s !== undefined && s.innerText.split("ↀ").length == 3) {
-        console.log(s.innerText);
-        let v = s.innerText.split("ↀ");
-        if (v[2] == 'return') {
-            eval(`aardio.${v[0]}(${v[1]})`).then((e) => {
-                s.firstChild.innerText = e;
-            })
-        }
-        else if (v[2] == 'do') {
-            eval(`aardio.${v[0]}(${v[1]})`)
-            s.remove();
-        }
-        else {
-            tickTime = v[2] > 1500 ? 1500 : (v[2] < 10 ? 10 : v[2]);
-            clearInterval(interval);
-            interval = setInterval(tick(), tickTime);
-        }
-    }
-}
-interval = setInterval(tick(), tickTime);

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ProjectCard from '../ProjectCard';
 import { Empty, Typography, Button, Flex } from 'antd';
 import { getCode, Window } from '../../../../globals';
 import { Content } from 'antd/es/layout/layout';
 import styles from './ProjectList.module.scss';
-import { listen } from '@tauri-apps/api/event';
 
 const handleInstallClick = () => {
     Window.createWindow('install', 'https://www.ccw.site', getCode('install'), '导入作品');

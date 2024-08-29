@@ -1,16 +1,12 @@
-import React, { MouseEventHandler } from "react";
+import React from "react";
 import {
   CloudDownloadOutlined,
   EllipsisOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { Avatar, Card, Drawer, message, Popconfirm, PopconfirmProps } from "antd";
+import { Avatar, Card, Drawer, Dropdown, MenuProps, message, Popconfirm, PopconfirmProps } from "antd";
 import styles from "./ProjectCard.module.scss";
-
-import Ttag from "./Ttag";
-
 import { getCode, Value, Window } from "../../../../globals";
-import { Mouse } from "puppeteer";
 
 const { Meta } = Card;
 
@@ -45,7 +41,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     Window.createWindow(
       "player",
       `https://www.ccw.site/player/${projectID}`,
-      getCode('null'),
+      getCode('game'),
       title
     );
   }
@@ -84,12 +80,30 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   };
 
   const onTabChange = (e: string) => {
+    switch (e) {
+      case 'EllipsisOutlined':
 
+        break;
+
+      default:
+        break;
+    }
   }
 
   const update = () => {
     Window.createWindow('update', `https://www.ccw.site/detail/${projectID}`, getCode('update'), '更新作品信息');
   }
+
+  const items: MenuProps['items'] = [
+    {
+      label: <a href={`https://www.ccw.site/detail/${projectID}`}>打开作品详情页</a>,
+      key: '0',
+    },
+    {
+      label: <a href={`https://www.ccw.site/player/${projectID}`}>从浏览器打开</a>,
+      key: '1',
+    },
+  ];
 
 
   return (
@@ -119,7 +133,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         >
           < CloudDownloadOutlined key="edit" />
         </Popconfirm>,
-        <EllipsisOutlined key="ellipsis" />,
+        <Dropdown menu={{ items }} trigger={['click']}>
+          <EllipsisOutlined key="ellipsis" />
+        </Dropdown>
       ]}
     >
       <Meta
@@ -129,15 +145,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       />
 
       <Drawer title={title} onClose={onClose} open={open}>
-        <p className="description-text" dangerouslySetInnerHTML={{ __html: description }} style={{ margin: '0px' }}>
-          {/* {description.split("\n").map((line, index) => (
-            <span className="description-text" key={index}>
-              {line}
-              <br />
-              <br />
-            </span>
-          ))} */}
-        </p>
+        <p className="description-text" dangerouslySetInnerHTML={{ __html: description }} style={{ margin: '0px' }} />
       </Drawer>
       {/* <Ttag tagname={["hello", "word"]} /> */}
     </Card >

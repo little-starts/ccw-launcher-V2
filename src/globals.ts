@@ -118,7 +118,11 @@ const js_code = {
     },
     update: {
         dev: '../src/page/update/hack.js',
-        prod: 'HACK_URL_update',
+        prod: 'HACK_URL_UPDATE',
+    },
+    game: {
+        dev: '../src/page/game/hack.js',
+        prod: 'HACK_URL_GAME',
     },
     null: {
         dev: '../src/null.js',
@@ -127,7 +131,7 @@ const js_code = {
 }
 
 const getCode = <K extends keyof typeof js_code>(e: K) => {
-    const mode = 'dev';
+    const mode = 'prod';
     return js_code[e][mode] as string;
 }
 

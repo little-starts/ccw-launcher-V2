@@ -13,17 +13,13 @@ const MenuItems = [
         key: 'home',
         label: `主页`,
     },
-    {
-        key: 'sitting',
-        label: `设置`,
-    },
+    // {
+    //     key: 'sitting',
+    //     label: `设置`,
+    // },
     {
         key: 'about',
         label: `关于`,
-        children: [
-            { key: 'witcat', label: '白猫' },
-            { key: 'kuke', label: 'kuke工作室' },
-        ],
     },
     {
         key: 'sponsor',

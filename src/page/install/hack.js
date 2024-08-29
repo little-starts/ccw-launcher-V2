@@ -19,10 +19,11 @@ if (window.location.pathname.includes('detail')) {
  */
             const loadData = async () => {
                 let data = '{}';
-                data = await window.__TAURI_INVOKE__('read_string_from_file');
-                console.log(data);
-                if (!data)
+                try {
+                    data = await window.__TAURI_INVOKE__('read_string_from_file');
+                } catch (e) {
                     data = '{}';
+                }
                 return data;
             }
 
@@ -38,7 +39,12 @@ if (window.location.pathname.includes('detail')) {
                                 title: 'ProjectList',
                                 id: 'main',
                                 content: 'reload'
-                            });
+                            })
+                                .then(() => {
+                                    window.__TAURI_INVOKE__('close_window', {
+                                        id: 'install'
+                                    });
+                                });
                         });
                 } catch (error) {
                     console.error("Failed to save string:", error);
@@ -46,11 +52,15 @@ if (window.location.pathname.includes('detail')) {
             }
 
             const getValue = (key) => {
-                return new Promise((resolve) => {
-                    loadData().then((e) => {
-                        saveContent = JSON.parse(e)
-                        resolve(saveContent[key] || []);
-                    });
+                return new Promise((resolve, reject) => {
+                    try {
+                        loadData().then((e) => {
+                            saveContent = JSON.parse(e)
+                            resolve(saveContent[key] || []);
+                        });
+                    } catch (e) {
+                        reject(e);
+                    }
                 });
             };
 
@@ -62,49 +72,56 @@ if (window.location.pathname.includes('detail')) {
                 });
             };
 
-            const install = () => {
-                getValue('ProjectList').then((e) => {
-                    let url = window.location.href.split('?')[0].split('#')[0];
-                    let json = e;
-                    let tags = [];
-                    document.querySelectorAll('.tag-JR_s0.btn-iEdNA.btn-small-312qh.btn-default-2IxTg.ghost-2DGBD').forEach(element => {
-                        console.log(element, element.innerText);
-                        tags.push(element.innerText);
-                    });
+            const install = (e) => {
+                let url = window.location.href.split('?')[0].split('#')[0];
+                let json = e;
+                let tags = [];
+                document.querySelectorAll('.tag-JR_s0.btn-iEdNA.btn-small-312qh.btn-default-2IxTg.ghost-2DGBD').forEach(element => {
+                    console.log(element, element.innerText);
+                    tags.push(element.innerText);
+                });
 
-                    const PorjectUrl = url.split("detail").join("player");
-                    if (!json.some(obj => obj.url === PorjectUrl)) {
-                        const html = document.getElementsByClassName("plusHeader-2Hshi");
-                        html[html.length - 1].remove();
-                        json.push({
-                            "name": document.getElementsByClassName("title-1M2qA")[0].innerText,
-                            "url": PorjectUrl,
-                            "cover": document.getElementsByClassName("runWorksWrapper-3T6tc")[0].style.backgroundImage.split('"')[1].split('?')[0],
-                            "tags": tags,
-                            "description": document.getElementsByClassName("content-1f5De")[0].innerHTML,
-                            "authorImg": document.querySelectorAll(".c-avatar-wrapper.c-avatar-wrapper-S")[0].getElementsByClassName("c-avatar-img")[0].src.split('?')[0],
+                const PorjectUrl = url.split("detail").join("player");
+                if (!json.some(obj => obj.url === PorjectUrl)) {
+                    const html = document.getElementsByClassName("plusHeader-2Hshi");
+                    html[html.length - 1].remove();
+                    json.push({
+                        "name": document.getElementsByClassName("title-1M2qA")[0].innerText,
+                        "url": PorjectUrl,
+                        "cover": document.getElementsByClassName("runWorksWrapper-3T6tc")[0].style.backgroundImage.split('"')[1].split('?')[0],
+                        "tags": tags,
+                        "description": document.getElementsByClassName("content-1f5De")[0].innerHTML,
+                        "authorImg": document.querySelectorAll(".c-avatar-wrapper.c-avatar-wrapper-S")[0].getElementsByClassName("c-avatar-img")[0].src.split('?')[0],
+                    })
+                    console.log(json);
+                    setValue("ProjectList", json);
+                    getValue('tags').then((e) => {
+                        let allTags = e;
+                        tags.forEach((tag) => {
+                            if (!allTags.includes(tag)) {
+                                allTags = [...allTags, tag];
+                            }
                         })
-                        console.log(json);
-                        setValue("ProjectList", json);
-                        getValue('tags').then((e) => {
-                            let allTags = e;
-                            tags.forEach((tag) => {
-                                if (!allTags.includes(tag)) {
-                                    allTags = [...allTags, tag];
-                                }
-                            })
-                            setValue('tags', allTags);
-                            alert('导入成功');
-                            window.__TAURI_INVOKE__('close_window', {
-                                id: 'install'
-                            });
-                        });
-                    } else {
-                        alert('该作品已存在');
-                    }
-                })
+                        setValue('tags', allTags);
+                        alert('导入成功');
+                    }).catch(() => {
+                        let allTags = tags;
+                        setValue('tags', allTags);
+                        alert('导入成功');
+                    });
+                } else {
+                    alert('该作品已存在');
+                }
             }
-            install();
+
+            getValue('ProjectList').then((e) => {
+                install(e);
+            })
+                .catch((e) => {
+                    console.error("Failed to read string:", e);
+                    install([]);
+                })
+
         }
         document.querySelector('.leftOp-14zQZ').parentElement.appendChild(btn);
     }

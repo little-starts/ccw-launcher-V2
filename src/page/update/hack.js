@@ -26,7 +26,12 @@ if (window.location.pathname.includes('detail')) {
                         title: 'ProjectList',
                         id: 'main',
                         content: 'reload'
-                    });
+                    })
+                        .then(() => {
+                            window.__TAURI_INVOKE__('close_window', {
+                                id: 'update'
+                            });
+                        });
                 });
         } catch (error) {
             console.error("Failed to save string:", error);
@@ -90,9 +95,6 @@ if (window.location.pathname.includes('detail')) {
                         })
                         setValue('tags', allTags);
                         alert('更新成功');
-                        window.__TAURI_INVOKE__('close_window', {
-                            id: 'update'
-                        });
                     });
                 })
             }, 3000);
