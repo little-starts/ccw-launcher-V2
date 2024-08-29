@@ -23,6 +23,9 @@ const loadData = async () => {
     } catch (error) {
         data = '{}';
     }
+    if (data === '') {
+        data = '{}';
+    }
     return data;
 }
 type ValueObject = {
@@ -34,7 +37,7 @@ loadData().then((e) => { saveContent = JSON.parse(e) });
 
 
 const Value = {
-    setValue: (key: string, value: string) => {
+    setValue: (key: string, value: any) => {
         loadData().then((e) => {
             saveContent = JSON.parse(e)
             saveContent[key] = value;
@@ -54,7 +57,7 @@ const Value = {
                 saveContent = JSON.parse(e)
                 resolve(saveContent[key]);
             });
-        }) as Promise<string | undefined>;
+        }) as Promise<any | undefined>;
     },
 }
 
@@ -88,7 +91,49 @@ const Window = {
         } else {
             console.error(`Window with label "${id}" not found.`);
         }
+    },
+    closeWindow: async (id: string) => {
+        invoke('close_window', {
+            window_id: id
+        }).catch((error) => console.error('Failed to post message:', error));
     }
 }
-export { Value, Window };
+
+const js_code = {
+    login: {
+        dev: '../src/page/login/hack.js',
+        prod: 'HACK_URL_LOGIN',
+    },
+    logout: {
+        dev: '../src/page/logout/hack.js',
+        prod: 'HACK_URL_LOGOUT',
+    },
+    userHome: {
+        dev: '../src/page/userHome/hack.js',
+        prod: 'HACK_URL_USER_HOME',
+    },
+    install: {
+        dev: '../src/page/install/hack.js',
+        prod: 'HACK_URL_INSTALL',
+    },
+    update: {
+        dev: '../src/page/update/hack.js',
+        prod: 'HACK_URL_UPDATE',
+    },
+    game: {
+        dev: '../src/page/game/hack.js',
+        prod: 'HACK_URL_GAME',
+    },
+    null: {
+        dev: '../src/null.js',
+        prod: '',
+    }
+}
+
+const getCode = <K extends keyof typeof js_code>(e: K) => {
+    const mode = 'prod';
+    return js_code[e][mode] as string;
+}
+
+export { Value, Window, getCode };
 
