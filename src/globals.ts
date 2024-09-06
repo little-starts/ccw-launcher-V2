@@ -74,6 +74,24 @@ const Window = {
             console.error('Failed to create window:', error);
             Window.focusWindow(id);
         });
+        
+        // 用new WebviewWindow代替原来的实现
+    //     const webview = new WebviewWindow(id, {
+    //         url: url,
+    //         title: name
+
+    // })
+    // // since the webview window is created asynchronously,
+    // // Tauri emits the `tauri://created` and `tauri://error` to notify you of the creation response
+    // webview.once('tauri://created', function () {
+    // // webview window successfully created
+    // })
+    // webview.once('tauri://error', function (e) {
+    // // an error occurred during webview window creation
+    // })
+    },
+    toGandi:async () => {
+        
     },
     postMessage: async (id: string, title: string, message: any) => {
         invoke('post_message', {

@@ -693,7 +693,7 @@ fn close_window(app: tauri::AppHandle, id: String) {
 }
 
 #[tauri::command]
-fn create_and_inject_js(
+async fn create_and_inject_js(
     app: AppHandle,
     label: String,
     url: String,
