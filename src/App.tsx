@@ -6,6 +6,7 @@ import Home from './components/body/home';
 import { listen } from '@tauri-apps/api/event';
 import { invoke } from '@tauri-apps/api';
 import WelcomeModal from './components/first';
+import Popup from './components/popup';
 
 interface CustomEventPayload {
   payload: string;
@@ -103,6 +104,7 @@ const App: React.FC = () => {
   return (
     <Layout>
       <WelcomeModal />
+      <Popup />
       <Navbar change={setPage} />
       <Layout className={styles.content}>
         {

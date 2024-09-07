@@ -14,7 +14,11 @@ import ProjectList from './ProjectList';
 import { listen } from '@tauri-apps/api/event';
 
 const handleInstallClick = () => {
-    Window.createWindow('install', 'https://www.ccw.site', getCode('install'), '导入作品');
+    window.postMessage(['popup', '导入作品', '在打开的窗口中浏览社区，选择你心仪的作品，然后在 新版详情页 中点击 导入作品 按钮，即可将作品导入至启动器'], "*");
+    window.addEventListener('message', (e: any) => {
+        if (e.data[0] === 'popupClose')
+            Window.createWindow('install', 'https://www.ccw.site', getCode('install'), '导入作品');
+    })
 };
 
 interface CustomEventPayload {
