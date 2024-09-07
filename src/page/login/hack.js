@@ -4,7 +4,7 @@ window.addEventListener('load', function () {
 setTimeout(() => {
     console.log(window.location.pathname);
     if (window.location.pathname !== '/profile/personal') {
-        window.__TAURI_INVOKE__('inject_js_with_delay', { path: '../src/page/login/hack.js', id: 'login' })
+        window.__TAURI_INVOKE__('inject_js_with_delay', { value: '../src/page/login/hack.js', id: 'login' })
             .then(() => console.log('Rust function called successfully!'))
             .catch((error) => console.error('Failed to call Rust function:', error));
     }
@@ -12,7 +12,7 @@ setTimeout(() => {
 
 if (window.location.pathname === '/profile/personal') {
     setTimeout(() => {
-        alert('User is on the login page');
+        alert('登录成功');
         const url = document.querySelectorAll('.c-avatar-img')[0].getAttribute('src');
         const urlObj = new URL(url);
         // 设置新的查询参数
@@ -25,24 +25,15 @@ if (window.location.pathname === '/profile/personal') {
                     title: 'ccw',
                     id: 'main',
                     content: 'reload'
-                });
+                })
+                    .then(() => {
+                        window.__TAURI_INVOKE__('close_window', {
+                            id: 'login'
+                        });
+                    });
             })
             .catch((error) => console.error('Failed to call Rust function:', error));
     }, 1000);
 }
 
 console.log('Hello from Tauri!');
-
-window.open = function (url, name, specs) {
-    invoke('create_and_inject_js', {
-        label: name,
-        identifier: name,
-        url: url,
-        path: '',
-        name: name
-    }).catch((error) => {
-        console.error('Failed to create window:', error);
-        Window.focusWindow(id);
-    });
-    return null; // window.open usually returns a reference to the window, but Tauri doesn't support this.
-};
