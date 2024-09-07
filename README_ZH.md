@@ -15,3 +15,5 @@ yarn
 yarn tauri dev
 ```
 请提前安装 [RUST](https://www.rust-lang.org/tools/install) 环境
+
+更新时间：2024/9/7
