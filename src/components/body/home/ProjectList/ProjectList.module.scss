@@ -11,3 +11,7 @@
     overflow: scroll;
     overflow-x: hidden;
 }
+
+.div::-webkit-scrollbar {
+    display: none;
+}
