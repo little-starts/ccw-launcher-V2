@@ -14,4 +14,5 @@ yarn
 # 运行
 yarn tauri dev
 ```
-请提前安装 [RUST](https://www.rust-lang.org/tools/install) 环境
+请提前安装 [RUST](https://www.rust-lang.org/tools/install) 环境，国内用户可以使用镜像。
+
