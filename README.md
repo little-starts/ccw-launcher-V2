@@ -26,6 +26,7 @@ yarn tauri dev
 共创世界启动器开发者之一-多bug的啸天犬
 自动签到提供者-酷可mc
 
+————————————————————
 
 # CCW Luncher
 If you want to visit the Chinese version, you can find it [here](README_ZH.md).
