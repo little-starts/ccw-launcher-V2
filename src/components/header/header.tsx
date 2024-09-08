@@ -1,3 +1,4 @@
+
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Layout, Menu, Button, Avatar, Tooltip, Dropdown, message, MenuProps } from 'antd';
 import styles from './Navbar.module.scss';
@@ -27,6 +28,7 @@ const MenuItems = [
     },
 ];
 
+
 const HeaderItems: MenuProps['items'] = [
     {
         label: '用户主页',
@@ -50,6 +52,7 @@ const NotLogin: MenuProps['items'] = [
 ];
 
 const { Header } = Layout;
+
 
 interface Navbar {
     change: Dispatch<SetStateAction<string>>;
@@ -139,6 +142,7 @@ const Navbar: React.FC<Navbar> = ({ change }) => {
             </Tooltip>
         </Header>
     );
+
 };
 
 export default Navbar;

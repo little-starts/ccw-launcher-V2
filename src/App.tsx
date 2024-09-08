@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Button, Empty, Layout, Typography } from 'antd';
 import Navbar from './components/header/header';
@@ -7,24 +8,34 @@ import { listen } from '@tauri-apps/api/event';
 import { invoke } from '@tauri-apps/api';
 import WelcomeModal from './components/first';
 
+
 interface CustomEventPayload {
   payload: string;
 }
 
 const App: React.FC = () => {
+
   const [page, setPage] = useState('home');
 
+
   useEffect(() => {
-    console.log('App is mounted');
-    listen('ccw', (event: CustomEventPayload) => {
+    console.log("App is mounted");
+    listen("ccw", (event: CustomEventPayload) => {
       console.log(event, event.payload, event.payload);
-      if (event.payload === 'reload') {
+      if (event.payload === "reload") {
         setTimeout(() => {
           location.reload();
         }, 1000);
       }
     });
-  }, [])
+  }, []);
+  const settingList = [
+    {
+      type: "input",
+      label: "输入框",
+      name: "username",
+    },
+
 
   useEffect(() => {
     setInterval(() => {
@@ -100,14 +111,17 @@ const App: React.FC = () => {
     );
   };
 
+
   return (
     <Layout>
       <WelcomeModal />
       <Navbar change={setPage} />
       <Layout className={styles.content}>
+
         {
           MyComponent({ page })
         }
+
       </Layout>
     </Layout>
   );
