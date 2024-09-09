@@ -1,3 +1,4 @@
+import { listen } from "@tauri-apps/api/event";
 import React, { useEffect, useState } from 'react';
 import { Flex, FloatButton, Menu, Tooltip } from 'antd'
 import {
@@ -9,6 +10,7 @@ import Sider from 'antd/es/layout/Sider';
 import { Content } from 'antd/es/layout/layout';
 import Plus from '../../../assets/plus.svg';
 import Install from '../../../assets/install.svg';
+
 import { getCode, Value, Window } from '../../../globals';
 import ProjectList from './ProjectList';
 import { listen } from '@tauri-apps/api/event';
@@ -104,6 +106,7 @@ const homeProjectsList: Array<any> = [
 ]
 
 const Home: React.FC = () => {
+
     const [collapsed, setCollapsed] = useState(false);
     const [collapsedImpotant, setCollapsedImpotant] = useState(false);
     const [projects, setProjects] = useState<Array<any> | undefined>([]);
@@ -198,7 +201,10 @@ const Home: React.FC = () => {
         setTag(item.key);
     };
 
+
+  if (show) {
     return (
+
         <Content className={styles.content}>
             <Sider collapsible collapsed={collapsedImpotant ? true : collapsed} onCollapse={(value) => setCollapsed(value)} theme={'light'} className={styles.sider}>
                 <Menu theme="light" defaultSelectedKeys={['home']} mode="inline" items={tags} className={styles.menu} onClick={handleTagClick} />
@@ -219,7 +225,11 @@ const Home: React.FC = () => {
                 </FloatButton.Group>
             }
         </Content >
+
     );
+  } else {
+    return null;
+  }
 };
 
 export default Home;
