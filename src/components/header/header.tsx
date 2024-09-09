@@ -14,10 +14,10 @@ const MenuItems = [
         key: 'home',
         label: `主页`,
     },
-    // {
-    //     key: 'sitting',
-    //     label: `设置`,
-    // },
+    {
+        key: 'sitting',
+        label: `设置`,
+    },
     {
         key: 'about',
         label: `关于`,
