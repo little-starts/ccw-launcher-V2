@@ -109,6 +109,7 @@ const App: React.FC = () => {
   return (
     <Layout>
       <WelcomeModal />
+      <Popup />
       <Navbar change={setPage} />
       <Layout className={styles.content}>{MyComponent({ page })}</Layout>
     </Layout>
