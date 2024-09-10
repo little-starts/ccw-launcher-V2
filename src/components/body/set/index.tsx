@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import ccw from "../../../assets/ccw.svg";
-import cocrea from "../../../assets/cocrea.svg";
+import React, { useState } from "react";
+// import ccw from "../../../assets/ccw.svg";
+// import cocrea from "../../../assets/cocrea.svg";
 import { Content } from "antd/es/layout/layout";
 import {
   Form,
@@ -17,7 +17,7 @@ import {
   Select,
 } from "antd";
 import Sider from "antd/es/layout/Sider";
-import { FormInstance } from "antd/es/form";
+// import { FormInstance } from "antd/es/form";
 import { listen } from "@tauri-apps/api/event";
 import styles from "./setting.module.scss";
 
@@ -66,7 +66,7 @@ const items2: Array<any> = [
 
 const Setting: React.FC<{ settingList: SettingItem[] }> = ({ settingList }) => {
   const [collapsed, setCollapsed] = useState(false);
-  const [collapsedImpotant, setCollapsedImpotant] = useState(false);
+  const [collapsedImpotant] = useState(false);
   const [form] = Form.useForm(); // 创建表单实例
   const [show, setShow] = useState(false);
   listen("goOtherPage", (e) => {
@@ -80,7 +80,7 @@ const Setting: React.FC<{ settingList: SettingItem[] }> = ({ settingList }) => {
 
   // 渲染设置项的函数
   const renderSettingItems = () => {
-    return settingList.map((item, index) => {
+    return settingList.map((item) => {
       // 根据item.type来决定使用哪个组件，这里只处理'input'类型
       if (item.type === "input") {
         return (
@@ -189,10 +189,10 @@ const Setting: React.FC<{ settingList: SettingItem[] }> = ({ settingList }) => {
     return null;
   }
   // 优化布局
-  const layout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 18 },
-  };
+  // const layout = {
+  //   labelCol: { span: 6 },
+  //   wrapperCol: { span: 18 },
+  // };
   return (
     <Content className={styles.content}>
       <Sider
