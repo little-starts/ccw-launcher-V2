@@ -6,6 +6,7 @@ import Home from "./components/body/home";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api";
 import WelcomeModal from "./components/first";
+import Popup from "./components/popup";
 
 interface CustomEventPayload {
   payload: string;
