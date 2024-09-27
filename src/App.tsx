@@ -3,11 +3,18 @@ import { Button, Empty, Layout, Typography } from "antd";
 import Navbar from "./components/header/header";
 import styles from "./App.module.scss";
 import Home from "./components/body/home";
+import Setting from "./components/body/set";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api";
 import WelcomeModal from "./components/first";
 import Popup from "./components/popup";
-
+import { Modal, notification } from "antd";
+import {
+  checkUpdate,
+  installUpdate,
+  // onUpdaterEvent,
+} from "@tauri-apps/api/updater";
+import { relaunch } from "@tauri-apps/api/process";
 interface CustomEventPayload {
   payload: string;
 }
@@ -26,13 +33,13 @@ const App: React.FC = () => {
       }
     });
   }, []);
-  // const settingList = [
-  //   {
-  //     type: "input",
-  //     label: "输入框",
-  //     name: "username",
-  //   },
-  // ];
+  const settingList = [
+    {
+      type: "button",
+      label: "输入框",
+      name: "检查更新",
+    },
+  ];
 
   useEffect(() => {
     setInterval(() => {
@@ -94,7 +101,7 @@ const App: React.FC = () => {
         content = <About />;
         break;
       case "sitting":
-        content = <div>开发中...</div>;
+        content = <Setting settingList={settingList} />;
         break;
       case "sponsor":
         content = <Sponsor />;
@@ -106,10 +113,40 @@ const App: React.FC = () => {
 
     return <Layout className={styles.content}>{content}</Layout>;
   };
-
+  checkUpdate().then((res) => {
+    const { shouldUpdate, manifest } = res;
+    if (shouldUpdate) {
+      Modal.confirm({
+        title: `发现新版本：${manifest?.version}`,
+        content: `是否升级？`,
+        okText: "升级",
+        cancelText: "取消",
+        onOk: async () => {
+          try {
+            notification.info({
+              message: "正在下载更新...",
+              duration: 3000,
+            });
+            await installUpdate();
+            notification.info({
+              message: "更新安装完成，等待重启",
+              duration: 3000,
+            });
+            await relaunch();
+          } catch (e) {
+            notification.error({
+              message: "下载更新失败",
+              description: e?.toString() || "",
+            });
+          }
+        },
+      });
+    }
+  });
   return (
     <Layout>
       <WelcomeModal />
+
       <Popup />
       <Navbar change={setPage} />
       <Layout className={styles.content}>{MyComponent({ page })}</Layout>
